@@ -30,63 +30,16 @@
       	<div class="userwin"><UsersWin v-bind:myid="this.myid"  v-bind:myip="this.myip" v-bind:myname="this.myname"></UsersWin></div>
     </div>
 -->
-    <div class="chatwin">
 
 
+    <ChatWin :chattext2="chattext" @scrollToDownWin="scrollToDown"></ChatWin>
 
-      <div class="scroll" ref="cha">
-        <div v-if="this.showchat">
-            <div v-for="showe in usertext" class="currency">
-              <div class="container sendmes" v-if="showe.mymes === 1">
-                <div class="row">
-                  <div class="col">{{ showe.message }}<br>
-
-                    <div v-if="showe.attach != 0"><b-button  @click="showModalFile(showe.attach)">Вложенные файлы</b-button></div>
-
-                  </div>
-                  <div class="w-100"></div>
-                  <div class="col text-right">
-                    <small> {{ showe.date }} </small>
-                    <img v-if="showe.read === 1" src="/assets/img/read1.png" title="Прочитано">
-                    <img v-else src="/assets/img/read2.png" title="Не прочитано">
-                  </div>
-                </div>
-              </div>
-
-              <div class="container readmes" v-else>
-                <div class="row">
-                  <div class="col">{{ showe.message }}<br></div>
-                  <div class="w-100"></div>
-                  <div class="col text-right">
-                    <small> {{ showe.date }} </small>
-                  </div>
-                </div>
-              </div>
-
-           </div>
-             </div>
-           <div v-else class="currency">
-            <!-- <b-alert show variant="info"> &#128072; &#128587 Надо выбрать из списка контакт</b-alert> -->
-            <div v-if="this.$route.params.id">
-              <b-spinner label="Spinning" style="position: absolute;top: 50%;left: 50%;"></b-spinner>
-            </div>
-            <div v-else><br><br><b-alert show variant="info">	&#128072;	 Надо выбрать контакт </b-alert></div>
-           </div>
-         </div>
-
-
-<br>
-
-
-</div>
-
-<br>
+    <br>
         <!--  <button @click="scrollToDown">scroll to me</button> -->
-    <FormSubmit v-if="this.$route.params.id" v-bind:myid="this.myid"  v-bind:myip="this.myip" v-bind:myname="this.myname"></FormSubmit>
+    <FormSubmit v-if="this.$route.params.id" :myid="this.myid"  :myip="this.myip" :myname="this.myname"></FormSubmit>
 
 
-
-              <WinFiles :idfiles="idfiles"></WinFiles>
+    <WinFiles :idfiles="idfiles"></WinFiles>
 </div>
 
 
@@ -97,20 +50,21 @@ import axios from 'axios';
 import UsersWin from '../components/UsersWin'
 import FormSubmit from '../components/FormSubmit'
 import WinFiles from '../components/WinFiles';
-
+import ChatWin from '../components/ChatWin';
 
   export default {
     components: {
       UsersWin,
       FormSubmit,
-      WinFiles
+      WinFiles,
+      ChatWin
     },
       props: ['myid','myip','myname'],
   data() {
 
     return {
        seen: true,
-      usertext: null,
+      chattext: null,
       id: null,
       dataread: null,
       sf: null,
@@ -137,8 +91,9 @@ import WinFiles from '../components/WinFiles';
 
     scrollToDown() {
 
-      const objDiv = this.$refs.cha;
-      objDiv.scrollTop = objDiv.scrollHeight;
+      this.$root.$emit('scrollToDownWin')
+    //  const objDiv = this.$refs.cha
+    //  objDiv.scrollTop = objDiv.scrollHeight
 
     //  const el = this.$el.getElementsByClassName('scroll')[0];
     //  if (el) {
@@ -146,6 +101,7 @@ import WinFiles from '../components/WinFiles';
       //el.scrollIntoView(false);
     //  }
     },
+
     oldChat(res){
 
       if(this.sf != res) {
@@ -165,7 +121,7 @@ import WinFiles from '../components/WinFiles';
         axios
           .get('/getmessage?ug' + this.$route.params.ug + '&to=' + this.$route.params.id)
           .then(response => (
-            this.usertext = response.data
+            this.chattext = response.data
             //this.oldChat(response.data[0].id)
           ))
           .catch(error => console.log(error))
