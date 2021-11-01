@@ -32,7 +32,7 @@
 -->
 
 
-    <ChatWin :chattext2="chattext" @scrollToDownWin="scrollToDown"></ChatWin>
+    <ChatWin :chattextin="chattext" ref="scrollToDownWin"></ChatWin>
 
     <br>
         <!--  <button @click="scrollToDown">scroll to me</button> -->
@@ -90,10 +90,10 @@ import ChatWin from '../components/ChatWin';
     },
 
     scrollToDown() {
+      /// вызываем функцию из дочернего компонента
+      this.$refs.scrollToDownWin.scrollToDown()
 
-      this.$root.$emit('scrollToDownWin')
-    //  const objDiv = this.$refs.cha
-    //  objDiv.scrollTop = objDiv.scrollHeight
+    //  this.$root.$emit('scrollToDownWin')
 
     //  const el = this.$el.getElementsByClassName('scroll')[0];
     //  if (el) {
@@ -189,20 +189,6 @@ import ChatWin from '../components/ChatWin';
 
 <style scoped>
 
-.scroll {
-overflow-y: scroll;
-height: 400px;
-overflow-x: hidden;
-}
-
-.chatwin {
-
-height: 400px; /* Высота блока */
-width: 100%;
-position: relative;
-text-align:left;
-height: 100%;
-}
 
 
 .userwin {
@@ -211,45 +197,8 @@ height: 100%;
  height: 100%;
  width: 100%;
  padding: 0;
-
-
 }
 
-
-
-.sendmes {
-  max-width:300px;
-  min-width: 200px;
-  background-color: #3490dc;
-  color: #ffffff;
-  border-radius: 5px 5px 0 5px;
-  right: 0;
-  //display: inline-block;
-  margin: 3px;
-  padding: 3px;
-
-  display: block; /* смещает только блоки */
-  margin-left: auto;
-   font-size: 16px;
-
-}
-.readmes {
-  max-width: 300px;
-  min-width: 200px;
-  background-color: #ffffff;
-  border-radius: 0 5px 5px 5px;
-  border-radius: 5px;
-  margin: 3px;
-  padding: 3px;
-  position: relative;
-  display: inline-block;
-  font-size: 16px;
-
-
-}
-.upname {
-   height: 48px; /* Высота блока */
-}
 
 
 </style>

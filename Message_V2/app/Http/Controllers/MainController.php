@@ -22,8 +22,8 @@ class MainController extends Controller
     //$token = Config::get('myconfig.my.token');
     //$url_api = Config::get('myconfig.my.url_api');
 
-    $ip =  $request->ip();
-    //$ip = "192.168.88.16";
+    //$ip =  $request->ip();
+    $ip = "192.168.88.16";
 
     $User = User::where('ip', $ip)->first();
 

@@ -5,7 +5,7 @@
 
       <div class="scroll" ref="cha">
 
-            <div v-for="messdat in chattext2" class="currency">
+            <div v-for="messdat in chattextin" class="currency">
               <div class="container sendmes" v-if="messdat.mymes === 1">
                 <div class="row">
                   <div class="col">{{ messdat.message }}<br>
@@ -54,15 +54,14 @@
 
     data() {
       return {
-      chattext2: ''
+      //chattextin: ''
     }},
 
-      props: ['chattext'],
+      props: ['chattextin'],
 
   methods : {
-    scrollToDownWin() {
-
-      alert('ss')
+    scrollToDown() {
+      //alert('ddd')
       const objDiv = this.$refs.cha
       objDiv.scrollTop = objDiv.scrollHeight
     }
