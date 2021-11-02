@@ -84,10 +84,6 @@ import ChatWin from '../components/ChatWin';
   },
   methods : {
 
-    showModalFile(idfiles) {
-      this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow', idfiles)
-      this.idfiles = idfiles
-    },
 
     scrollToDown() {
       /// вызываем функцию из дочернего компонента

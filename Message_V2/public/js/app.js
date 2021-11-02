@@ -2137,6 +2137,10 @@ __webpack_require__.r(__webpack_exports__);
       //alert('ddd')
       var objDiv = this.$refs.cha;
       objDiv.scrollTop = objDiv.scrollHeight;
+    },
+    showModalFile: function showModalFile(idfiles) {
+      this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow', idfiles);
+      this.idfiles = idfiles;
     }
   }
 });
@@ -2908,10 +2912,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    showModalFile: function showModalFile(idfiles) {
-      this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow', idfiles);
-      this.idfiles = idfiles;
-    },
     scrollToDown: function scrollToDown() {
       /// вызываем функцию из дочернего компонента
       this.$refs.scrollToDownWin.scrollToDown(); //  this.$root.$emit('scrollToDownWin')
@@ -45392,7 +45392,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.scroll[data-v-c5488e6e] {\r\noverflow-y: scroll;\r\nheight: 400px;\r\noverflow-x: hidden;\n}\n.chatwin[data-v-c5488e6e] {\r\n\r\nheight: 400px; /* Высота блока */\r\nwidth: 100%;\r\nposition: relative;\r\ntext-align:left;\r\nheight: 100%;\n}\n.sendmes[data-v-c5488e6e] {\r\n  max-width:300px;\r\n  min-width: 200px;\r\n  background-color: #3490dc;\r\n  color: #ffffff;\r\n  border-radius: 5px 5px 0 5px;\r\n  right: 0;\r\n  //display: inline-block;\r\n  margin: 3px;\r\n  padding: 3px;\r\n\r\n  display: block; /* смещает только блоки */\r\n  margin-left: auto;\r\n   font-size: 16px;\n}\n.readmes[data-v-c5488e6e] {\r\n  max-width: 300px;\r\n  min-width: 200px;\r\n  background-color: #ffffff;\r\n  border-radius: 0 5px 5px 5px;\r\n  border-radius: 5px;\r\n  margin: 3px;\r\n  padding: 3px;\r\n  position: relative;\r\n  display: inline-block;\r\n  font-size: 16px;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.scroll[data-v-c5488e6e] {\noverflow-y: scroll;\nheight: 400px;\noverflow-x: hidden;\n}\n.chatwin[data-v-c5488e6e] {\n\nheight: 400px; /* Высота блока */\nwidth: 100%;\nposition: relative;\ntext-align:left;\nheight: 100%;\n}\n.sendmes[data-v-c5488e6e] {\n  max-width:300px;\n  min-width: 200px;\n  background-color: #3490dc;\n  color: #ffffff;\n  border-radius: 5px 5px 0 5px;\n  right: 0;\n  //display: inline-block;\n  margin: 3px;\n  padding: 3px;\n\n  display: block; /* смещает только блоки */\n  margin-left: auto;\n   font-size: 16px;\n}\n.readmes[data-v-c5488e6e] {\n  max-width: 300px;\n  min-width: 200px;\n  background-color: #ffffff;\n  border-radius: 0 5px 5px 5px;\n  border-radius: 5px;\n  margin: 3px;\n  padding: 3px;\n  position: relative;\n  display: inline-block;\n  font-size: 16px;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -45416,7 +45416,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fileu[data-v-7b5836b2]{\r\n  display: inline-block;\r\n  background-color: indigo;\r\n  color: white;\r\n  padding: 0.5rem;\r\n  font-family: sans-serif;\r\n  border-radius: 0.3rem;\r\n  cursor: pointer;\r\n  margin-top: 1rem;\n}\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fileu[data-v-7b5836b2]{\n  display: inline-block;\n  background-color: indigo;\n  color: white;\n  padding: 0.5rem;\n  font-family: sans-serif;\n  border-radius: 0.3rem;\n  cursor: pointer;\n  margin-top: 1rem;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -45440,7 +45440,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.userwin[data-v-40c106f7] {\r\n  overflow-y: scroll;\r\n //height: 450px; /* Высота блока */\r\n height: 100%;\r\n width: 100%;\r\n padding: 0;\n}\r\n\r\n\r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.userwin[data-v-40c106f7] {\n  overflow-y: scroll;\n //height: 450px; /* Высота блока */\n height: 100%;\n width: 100%;\n padding: 0;\n}\n\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -51216,7 +51216,7 @@ var render = function () {
                 [
                   _c("b-input-group-prepend", [
                     _c("label", { staticClass: "btn btn-primary" }, [
-                      _vm._v("\r\n          Фаил"),
+                      _vm._v("\n          Фаил"),
                       _c("input", {
                         ref: "file",
                         staticStyle: { display: "none" },
@@ -51330,7 +51330,7 @@ var render = function () {
             "dismiss-count-down": _vm.countDownChanged,
           },
         },
-        [_vm._v("\r\n  Надо ввести сообщение 😔\r\n")]
+        [_vm._v("\n  Надо ввести сообщение 😔\n")]
       ),
       _vm._v(" "),
       _c("hr"),

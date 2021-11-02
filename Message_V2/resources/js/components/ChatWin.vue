@@ -64,7 +64,11 @@
       //alert('ddd')
       const objDiv = this.$refs.cha
       objDiv.scrollTop = objDiv.scrollHeight
-    }
+    },
+    showModalFile(idfiles) {
+      this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow', idfiles)
+      this.idfiles = idfiles
+    },
   },
 
 
