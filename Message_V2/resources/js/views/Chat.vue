@@ -1,7 +1,33 @@
 <template>
 <div>
 
+  <div class="row">
+    <div class="col-md-4 d-none d-md-block">
 
+      <UsersWin class="userwin"
+      :myid="this.myid"
+      :myip="this.myip"
+      :myname="this.myname"
+      ></UsersWin>
+
+    </div>
+    <div class="col">
+
+      <ChatWin :chattextin="chattext" ref="scrollToDownWin"></ChatWin>
+
+      <FormSubmit v-if="this.$route.params.id"
+      :myid="this.myid"
+      :myip="this.myip"
+      :myname="this.myname"
+      @callNewMessPrint="NewMessPrint"
+      @clearTimerChat="clearTimerChat"
+      @startTimerChat="startTimerChat"
+      ></FormSubmit>
+    </div>
+  </div>
+
+
+<WinFiles :idfiles="idfiles"></WinFiles>
 
 <!--
         <div class="upname bg-white border">
@@ -32,14 +58,16 @@
 -->
 
 
-    <ChatWin :chattextin="chattext" ref="scrollToDownWin"></ChatWin>
 
-    <br>
+
+
         <!--  <button @click="scrollToDown">scroll to me</button> -->
-    <FormSubmit v-if="this.$route.params.id" :myid="this.myid"  :myip="this.myip" :myname="this.myname"></FormSubmit>
 
 
-    <WinFiles :idfiles="idfiles"></WinFiles>
+
+
+
+
 </div>
 
 
@@ -47,6 +75,7 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment'
 import UsersWin from '../components/UsersWin'
 import FormSubmit from '../components/FormSubmit'
 import WinFiles from '../components/WinFiles';
@@ -64,7 +93,7 @@ import ChatWin from '../components/ChatWin';
 
     return {
        seen: true,
-      chattext: null,
+      chattext: '',
       id: null,
       dataread: null,
       sf: null,
@@ -75,7 +104,9 @@ import ChatWin from '../components/ChatWin';
       userlast: null,
       group: null,
       showchat: false,
-      idfiles: ''
+      idfiles: '',
+      timestamp: null,
+      polling: ''
 
 
       //obj: this.$route.params.id,
@@ -84,6 +115,47 @@ import ChatWin from '../components/ChatWin';
   },
   methods : {
 
+    startTimerChat(){
+      this.polling = setInterval(() => {
+        this.getMessage(false)
+        console.log('interval')
+      }, 10000)
+      //alert('start')
+    },
+
+    clearTimerChat(){
+      clearInterval(this.polling)
+      //alert('stop')
+    },
+
+    NewMessPrint(id,message,attach) {
+      //this.getNow()
+
+      this.chattext.push({
+        //id: this.nextTodoId++,
+        id: 1,
+        to: this.myid,
+        fromid: id,
+        message: message,
+        attach: attach,
+        read: 2,
+        mymes: 1,
+        datesend: 'только что',
+      })
+      window.setTimeout(() => {
+              this.scrollToDown()
+      }, 1000)
+
+    },
+  //  getNow() {
+  //    const today = new Date();
+  //    const date = today.getDate()+'.'+(today.getMonth()+1)+'.'+today.getFullYear();
+  //    const time = today.getHours() + ":" + today.getMinutes();
+  //    /// + ":" + today.getSeconds();
+    //  const dateTime = time +' '+ date;
+  //    this.timestamp = moment(String(dateTime)).format('hh:mm MM.DD.YYYY')
+      //this.timestamp = dateTime;
+  //  },
 
     scrollToDown() {
       /// вызываем функцию из дочернего компонента
@@ -109,7 +181,7 @@ import ChatWin from '../components/ChatWin';
       this.sf = res
 
     },
-    loadChat(getparam){
+    getMessage(getparam){
 
       if(typeof(this.$route.params.id) !== 'undefined' ) {
 
@@ -146,13 +218,13 @@ import ChatWin from '../components/ChatWin';
 
 
       this.$root.$on('Chat', () => {
-          this.loadChat(true)
+          this.getMessage(true)
           //this.loadUserInfo();
           this.usertext = '',
           this.showchat = false
       }),
       this.$root.$on('ChatInPost', () => {
-          this.loadChat(true);
+          this.getMessage(true);
 
         // window.setTimeout(() => {
         //          this.scrollToDown()
@@ -171,13 +243,17 @@ import ChatWin from '../components/ChatWin';
           this.group = group
       }),
 
-      window.setInterval(() => {
-              this.loadChat(false);
-      }, 10000)
+      //window.setInterval(() => {
+      //        this.getMessage(false);
+      //}, 10000)
 
-      this.loadChat(true);
+      this.startTimerChat()
+      this.getMessage(true)
 
 
+    },
+    beforeDestroy () {
+	     clearInterval(this.polling)
     }
 
   }
@@ -189,8 +265,7 @@ import ChatWin from '../components/ChatWin';
 
 .userwin {
   overflow-y: scroll;
- //height: 450px; /* Высота блока */
- height: 100%;
+ height: 450px; /* Высота блока */
  width: 100%;
  padding: 0;
 }

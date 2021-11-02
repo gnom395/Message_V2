@@ -59,6 +59,8 @@ class getMessageController extends Controller
 
       $dat = date("H:i d.m.Y", strtotime($message->dateIn));
 
+
+
       $response[] = array(
 
               'id' => $message->id,
@@ -68,7 +70,7 @@ class getMessageController extends Controller
               'attach' => $message->attachFile,
               'read' => $message->readMes,
               'mymes' => $mymes,
-              'date' => $dat
+              'datesend' => $dat
               //'read' => $eraParamGet['readMes']
       );
     }

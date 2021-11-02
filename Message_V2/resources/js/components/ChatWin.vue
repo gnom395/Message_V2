@@ -6,6 +6,8 @@
       <div class="scroll" ref="cha">
 
             <div v-for="messdat in chattextin" class="currency">
+
+
               <div class="container sendmes" v-if="messdat.mymes === 1">
                 <div class="row">
                   <div class="col">{{ messdat.message }}<br>
@@ -15,8 +17,9 @@
                   </div>
                   <div class="w-100"></div>
                   <div class="col text-right">
-                    <small> {{ messdat.date }} </small>
+                    <small> {{ messdat.datesend }} </small>
                     <img v-if="messdat.read === 1" src="/assets/img/read1.png" title="Прочитано">
+                    <img v-else-if="messdat.read === 2" src="/assets/img/waiting.png" title="Доставляется">
                     <img v-else src="/assets/img/read2.png" title="Не прочитано">
                   </div>
                 </div>
@@ -27,7 +30,7 @@
                   <div class="col">{{ messdat.message }}<br></div>
                   <div class="w-100"></div>
                   <div class="col text-right">
-                    <small> {{ messdat.date }} </small>
+                    <small> {{ messdat.datesend }} </small>
                   </div>
                 </div>
               </div>
@@ -81,6 +84,7 @@
 overflow-y: scroll;
 height: 400px;
 overflow-x: hidden;
+width: 100%;
 }
 
 .chatwin {

@@ -1,32 +1,29 @@
 <template>
-<div>
 
-
+  <div class="butdown">
 
 <form @submit.prevent="submit" enctype="multipart/form-data">
 
-  <div>
+
     <b-input-group>
 
       <b-input-group-prepend>
-        <label class="btn btn-primary">
-          Фаил<input type="file" style="display: none;"  name="image" id="file" ref="file" @change="submitFile()">
+        <label>
+          <img src="/assets/img/attachment.png" class="filebut"><input type="file" style="display: none;"  name="image" id="file" ref="file" @change="submitFile()">
         </label>
       </b-input-group-prepend>
 
-      <b-form-input type="text" v-model="message" rows="1" ref="message" v-on:keyup.ctrl.enter="submit"  autocomplete="off"></b-form-input>
+      <b-form-input class="inputsend" type="text" placeholder="Введите текст" v-model="message" rows="1" ref="message" v-on:keyup.ctrl.enter="submit"  autocomplete="off"></b-form-input>
+
 
       <b-input-group-prepend>
         <label>
-          <spin v-if="loading"></spin>
-          <button class="btn btn-primary" v-else="loading" type="submit" variant="outline-primary">Send</button>
+          <input v-if="this.message" class="sendbut" type="image" src="/assets/img/send.png" border="0" alt="Submit">
         </label>
       </b-input-group-prepend>
 
 
     </b-input-group>
-  </div>
-
 
 
 <!--
@@ -54,16 +51,6 @@
 <ListFile @sendfiles="sendfiles"></ListFile>
 
 
-
-<b-alert
-  :show="dismissCountDown"
-  dismissible
-  variant="danger"
-  @dismissed="dismissCountDown=0"
-  @dismiss-count-down="countDownChanged">
-  Надо ввести сообщение &#128532;
-</b-alert>
-<hr>
 <!--{{this.filesend}}-->
 
 </div>
@@ -84,12 +71,10 @@
 
     data() {
       return {
-        loading: false,
         message: '',
         answer: '',
         id: '',
         dismissSecs: 7,
-        dismissCountDown: 0,
         file: '',
         usertext: null,
         listfile: [],
@@ -133,7 +118,7 @@
      submitFile(){
 
       this.file = this.$refs.file.files[0];
-      this.loading = true;
+
 
       //axios.post('/postmessage', { message: this.message, to: this.$route.params.id, ug: this.$route.params.ug })
        let formData = new FormData();
@@ -157,7 +142,7 @@
               title: this.file.name
             }),
             this.$root.$emit('AddFileList',response.data.filename,response.data.id)
-            this.loading = false
+
 
           })
         .catch(error => console.log(error))
@@ -170,44 +155,45 @@
         this.file = this.$refs.file.files[0];
       },
 
-     countDownChanged(dismissCountDown) {
-       this.dismissCountDown = dismissCountDown
-     },
-    /// showAlert() {
-      // if(this.message == ''){
-    //            this.dismissCountDown = this.dismissSecs
-    ///   }
-     //},
+
       async submit(){
 
+      /// остановили setInterval ждем отправки пост и запускаем опять
+      this.$emit('clearTimerChat')
+
+      // пишем новое сообщение пока не загрузился чат
+      this.$emit('callNewMessPrint',this.$route.params.id,this.message,this.attachfile)
+      //this.$refs.message.newMessPrint()
+
+      /// ставим фокус на инпуте
         this.$refs.message.focus()
 
         if(this.message == ''){
-               this.dismissCountDown = this.dismissSecs
+               alert('пусто')
         } else {
 
-          this.loading = true;
 
           try {
 
             axios.post('/postmessage', { message: this.message, to: this.$route.params.id, ug: this.$route.params.ug, attach: this.attachfile })
             .then(response => {
-                this.message = '';
-                this.loading = false;
-                this.$root.$emit('ChatInPost');
+                //this.message = '';
 
+                //this.$root.$emit('ChatInPost');
 
                 // очищаем вложения
-
                 this.filesend = ''
                 this.attachfile = ''
-
-
                 this.$root.$emit('ListFileClean')
+
+                //// запускаем таймер после остановки
+                this.$emit('startTimerChat')
+
+
 
               //  .catch(error => console.log(error))
               //  .then(response => {
-                this.dismissCountDown = 0
+
 
               //  });
                 //console.log(response.data)
@@ -216,6 +202,7 @@
           } catch(error) {
              console.log(error)
           }
+          this.message = ''
           //this.$root.$refs.Chat.loadChat();
 
 
@@ -227,6 +214,41 @@
 </script>
 
 <style scoped>
+
+
+
+.inputsend {
+  margin :4px;
+  outline-offset: 0;
+  border: 0;
+}
+.inputsend:focus  {
+ outline: none !important;
+}
+
+.sendbut {
+  padding-top:5px;
+  padding-right:4px;
+}
+.sendbut:active {
+ opacity: .4;
+}
+
+.filebut {
+  padding-left:3px;
+  padding-top:6px;
+}
+.filebut:active {
+  opacity: .4;
+}
+
+
+
+
+.butdown {
+    background-color: #ffffff;
+    width: 100%;
+}
 
 .fileu{
   display: inline-block;

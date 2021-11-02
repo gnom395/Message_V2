@@ -95,7 +95,7 @@ import axios from 'axios';
 
     window.setInterval(() => {
       this.getusers()
-    }, 10000)
+    }, 15000)
 
 
   },
